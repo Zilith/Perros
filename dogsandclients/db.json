@@ -1,0 +1,28 @@
+[{
+    "id": 1,
+    "name": "Fido",
+    "breed": "Golden Retriever",
+    "age": 3,
+    "weight": 65,
+    "owner": {
+        "id": 1,
+        "name": "Alice", 
+        "surname": "Smith",
+        "address": "123 Main St",
+        "phone": "555-1234"
+    },
+    "medicine":[
+        {
+            "id": 1,
+            "name": "Heartgard",
+            "dosage": "1 pill monthly",
+            "description": "Heartworm prevention"
+        },
+        {
+            "id": 2,
+            "name": "Frontline",
+            "dosage": "1 vial monthly",
+            "description": "Flea and tick prevention"
+        }
+    ]
+}]

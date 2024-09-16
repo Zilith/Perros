@@ -11,6 +11,17 @@
         "1",
         "2"
       ]
+    },
+    {
+      "id": 2,
+      "name": "Alexis",
+      "breed": "Persian",
+      "age": 6,
+      "weight": 5,
+      "owner": "2",
+      "medicines": [
+        "1"        
+      ]
     }
   ],
   "clients": [

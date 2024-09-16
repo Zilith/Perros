@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import './Style.css';
 
 function App() {
   const [pets, setPets] = useState([]);
@@ -79,7 +80,9 @@ function App() {
 
   return (
     <>
+      <div className="container">
       <h1>Pets Information</h1>
+      <div className="table-container">
       <table>
         <thead>
           <tr>
@@ -89,6 +92,8 @@ function App() {
             <th>Weight</th>
             <th>Owner</th>
             <th>Medicines</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -119,10 +124,11 @@ function App() {
           })}
         </tbody>
       </table>
+      </div>
       <button onClick={() => handleAdd}>Add Pet</button>
-      <br />
       <button>See all clients</button>
       <button>See all medicines</button>
+      </div>
     </>
   );
 }

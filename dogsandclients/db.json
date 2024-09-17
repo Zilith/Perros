@@ -1,43 +1,134 @@
 {
-  "dogs": [
+  "pets": [
     {
-      "id": 1,
       "name": "Fido",
       "breed": "Golden Retriever",
-      "age": 3,
-      "weight": 65,
+      "age": 5,
+      "weight": 50,
       "owner": "1",
       "medicines": [
         "1",
-        "2"
-      ]
+        "2",
+        "3"
+      ],
+      "id": "1"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Alexis",
       "breed": "Persian",
       "age": 6,
       "weight": 5,
       "owner": "2",
       "medicines": [
-        "1"        
+        "1"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Rex",
+      "breed": "German Shepherd",
+      "age": 3,
+      "weight": 80,
+      "owner": "1",
+      "medicines": [
+        "1"
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Spot",
+      "breed": "Dalmation",
+      "age": 2,
+      "weight": 40,
+      "owner": "2",
+      "medicines": [
+        "1"
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Max",
+      "breed": "Golden Retriever",
+      "age": 7,
+      "weight": 55,
+      "owner": "1",
+      "medicines": [
+        "1"
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Buddy",
+      "breed": "Beagle",
+      "age": 4,
+      "weight": 30,
+      "owner": "2",
+      "medicines": [
+        "1"
+      ]
+    },
+    {
+      "id": "7",
+      "name": "Daisy",
+      "breed": "Golden Retriever",
+      "age": 3,
+      "weight": 45,
+      "owner": "1",
+      "medicines": [
+        "1"
+      ]
+    },
+    {
+      "id": "8",
+      "name": "Lucy",
+      "breed": "Poodle",
+      "age": 5,
+      "weight": 25,
+      "owner": "2",
+      "medicines": [
+        "1"
+      ]
+    },
+    {
+      "id": "9",
+      "name": "Ginger",
+      "breed": "Golden Retriever",
+      "age": 6,
+      "weight": 50,
+      "owner": "1",
+      "medicines": [
+        "1"
+      ]
+    },
+    {
+      "id": "10",
+      "name": "Molly",
+      "breed": "Labrador",
+      "age": 4,
+      "weight": 60,
+      "owner": "2",
+      "medicines": [
+        "1"
       ]
     }
   ],
   "clients": [
     {
-      "id": "1",
+      "document": "1026062098",
       "name": "John",
       "surname": "Doe",
       "address": "123 Elm St",
-      "phone": "555-555-5555"
+      "phone": "3147553490",
+      "id": "1"
     },
     {
-      "id": "2",
-      "name": "Alice",
+      "document": "12345",
+      "name": "Jane",
       "surname": "Smith",
-      "address": "123 Main St",
-      "phone": "555-1234"
+      "address": "432 Oak St",
+      "phone": "1234235256",
+      "id": "2"
     }
   ],
   "medicines": [
@@ -49,9 +140,21 @@
     },
     {
       "id": "2",
-      "name": "Frontline",
-      "dosage": "1 vial monthly",
+      "name": "Advantix",
+      "dosage": "1 dose monthly",
       "description": "Flea and tick prevention"
+    },
+    {
+      "id": "3",
+      "name": "Rimadyl",
+      "dosage": "1 pill daily",
+      "description": "Pain relief"
+    },
+    {
+      "id": "a37b",
+      "name": "asdf",
+      "dosage": "asdf",
+      "description": "asdf"
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "pets": [
+    {
+      "id": "9040",
+      "name": "Mona",
+      "breed": "Cat",
+      "age": "3",
+      "weight": "6",
+      "owner": "1026062098",
+      "medicines": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "7237",
+      "name": "Natsu",
+      "breed": "Dog",
+      "age": "5",
+      "weight": "46",
+      "owner": "12345",
+      "medicines": [
+        "1",
+        "2",
+        "3"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "document": "1026062098",
+      "name": "John",
+      "surname": "Doe",
+      "address": "123 Elm St",
+      "phone": "3147553490",
+      "id": "1"
+    },
+    {
+      "document": "12345",
+      "name": "Jane",
+      "surname": "Smith",
+      "address": "432 Oak St",
+      "phone": "1234235256",
+      "id": "2"
+    }
+  ],
+  "medicines": [
+    {
+      "id": "1",
+      "name": "Heartgard",
+      "dosage": "1 pill monthly",
+      "description": "Heartworm prevention"
+    },
+    {
+      "id": "2",
+      "name": "Advantix",
+      "dosage": "1 dose monthly",
+      "description": "Flea and tick prevention"
+    },
+    {
+      "id": "3",
+      "name": "Rimadyl",
+      "dosage": "1 pill daily",
+      "description": "Pain relief"
+    },
+    {
+      "id": "a37b",
+      "name": "asdf",
+      "dosage": "asdf",
+      "description": "asdf"
+    }
+  ]
+}

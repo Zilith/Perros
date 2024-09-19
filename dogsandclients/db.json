@@ -1,115 +1,28 @@
 {
   "pets": [
     {
-      "name": "Fido",
-      "breed": "Golden Retriever",
-      "age": 5,
-      "weight": 50,
-      "owner": "1",
+      "id": "9040",
+      "name": "Mona",
+      "breed": "Cat",
+      "age": "3",
+      "weight": "6",
+      "owner": "1026062098",
+      "medicines": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "7237",
+      "name": "Natsu",
+      "breed": "Dog",
+      "age": "5",
+      "weight": "46",
+      "owner": "12345",
       "medicines": [
         "1",
         "2",
         "3"
-      ],
-      "id": "1"
-    },
-    {
-      "id": "2",
-      "name": "Alexis",
-      "breed": "Persian",
-      "age": 6,
-      "weight": 5,
-      "owner": "2",
-      "medicines": [
-        "1"
-      ]
-    },
-    {
-      "id": "3",
-      "name": "Rex",
-      "breed": "German Shepherd",
-      "age": 3,
-      "weight": 80,
-      "owner": "1",
-      "medicines": [
-        "1"
-      ]
-    },
-    {
-      "id": "4",
-      "name": "Spot",
-      "breed": "Dalmation",
-      "age": 2,
-      "weight": 40,
-      "owner": "2",
-      "medicines": [
-        "1"
-      ]
-    },
-    {
-      "id": "5",
-      "name": "Max",
-      "breed": "Golden Retriever",
-      "age": 7,
-      "weight": 55,
-      "owner": "1",
-      "medicines": [
-        "1"
-      ]
-    },
-    {
-      "id": "6",
-      "name": "Buddy",
-      "breed": "Beagle",
-      "age": 4,
-      "weight": 30,
-      "owner": "2",
-      "medicines": [
-        "1"
-      ]
-    },
-    {
-      "id": "7",
-      "name": "Daisy",
-      "breed": "Golden Retriever",
-      "age": 3,
-      "weight": 45,
-      "owner": "1",
-      "medicines": [
-        "1"
-      ]
-    },
-    {
-      "id": "8",
-      "name": "Lucy",
-      "breed": "Poodle",
-      "age": 5,
-      "weight": 25,
-      "owner": "2",
-      "medicines": [
-        "1"
-      ]
-    },
-    {
-      "id": "9",
-      "name": "Ginger",
-      "breed": "Golden Retriever",
-      "age": 6,
-      "weight": 50,
-      "owner": "1",
-      "medicines": [
-        "1"
-      ]
-    },
-    {
-      "id": "10",
-      "name": "Molly",
-      "breed": "Labrador",
-      "age": 4,
-      "weight": 60,
-      "owner": "2",
-      "medicines": [
-        "1"
       ]
     }
   ],

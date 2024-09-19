@@ -4,7 +4,6 @@ import axios from "axios";
 
 const PetsTable = ({ clients }) => {
   const [pets, setPets] = useState([]);
-  const [ownerExists, setOwnerExists] = useState(false);
   const navigate = useNavigate();
 
   const fetchPets = () => {
@@ -55,12 +54,7 @@ const PetsTable = ({ clients }) => {
       return;
     }
 
-    clients.map((client) => {
-      if (client.document === owner) {
-        setOwnerExists("true")
-      }
-    });
-
+    const ownerExists = clients.find((client) => client.document === owner);
     if (!ownerExists) {
       alert("Owner does not exist");
       return;
@@ -76,7 +70,6 @@ const PetsTable = ({ clients }) => {
       })
       .then(() => {
         fetchPets();
-        setOwnerExists(false);
       });
   };
 
@@ -116,14 +109,9 @@ const PetsTable = ({ clients }) => {
       return;
     }
 
-    clients.map((client) => {
-      if (client.document === owner) {
-        setOwnerExists("true")
-      }
-    });
-
-    if (!ownerExists) {
-      alert("Owner does not exist");
+    const ownerExistsInPet = pets.find((pet) => pet.owner === owner);
+    if (ownerExistsInPet) {
+      alert("Owner already has a pet");
       return;
     }
 
@@ -137,7 +125,6 @@ const PetsTable = ({ clients }) => {
       })
       .then(() => {
         fetchPets();
-        setOwnerExists(false);
       });
   };
 
@@ -159,7 +146,7 @@ const PetsTable = ({ clients }) => {
               <th>Name</th>
               <th>Breed</th>
               <th>Age</th>
-              <th>Weight</th>
+              <th>Weight (Kg)</th>
               <th>Owner</th>
               <th>Medicines</th>
               <th></th>
@@ -168,7 +155,7 @@ const PetsTable = ({ clients }) => {
           </thead>
           <tbody>
             {pets.map((pet) => {
-              const client = clients.find((client) => client.id === pet.owner);
+              const client = clients.find((client) => client.document === pet.owner);
               return (
                 <tr key={pet.id}>
                   <td>{pet.name}</td>

@@ -24,6 +24,14 @@
         "2",
         "3"
       ]
+    },
+    {
+      "id": "0a56",
+      "name": "Conan",
+      "breed": "Cat",
+      "age": "4",
+      "weight": "5",
+      "owner": "123456"
     }
   ],
   "clients": [
@@ -42,6 +50,14 @@
       "address": "432 Oak St",
       "phone": "1234235256",
       "id": "2"
+    },
+    {
+      "id": "dbde",
+      "document": "123456",
+      "name": "Jaime",
+      "surname": "Andres",
+      "address": "123 dicrecicon",
+      "phone": "3147553489"
     }
   ],
   "medicines": [
@@ -62,12 +78,6 @@
       "name": "Rimadyl",
       "dosage": "1 pill daily",
       "description": "Pain relief"
-    },
-    {
-      "id": "a37b",
-      "name": "asdf",
-      "dosage": "asdf",
-      "description": "asdf"
     }
   ]
 }

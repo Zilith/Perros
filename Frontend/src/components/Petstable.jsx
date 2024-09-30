@@ -109,9 +109,9 @@ const PetsTable = ({ clients }) => {
       return;
     }
 
-    const ownerExistsInPet = pets.find((pet) => pet.owner === owner);
-    if (ownerExistsInPet) {
-      alert("Owner already has a pet");
+    const ownerExists = clients.find((client) => client.document === owner);
+    if (!ownerExists) {
+      alert("Owner does not exist");
       return;
     }
 

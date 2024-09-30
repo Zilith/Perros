@@ -3,10 +3,10 @@ import axios from "axios";
 const ClientsTable = ({ clients, fetchClients }) => {
   const handleAdd = () => {
     console.log("add");
-    const document = prompt("Enter the id of the client");
+    const document = prompt("Enter the document of the client");
 
     if (!document || typeof document !== "string" || document.trim() === "") {
-      alert("Please enter a valid id");
+      alert("Please enter a valid document");
       return;
     }
 
@@ -52,10 +52,10 @@ const ClientsTable = ({ clients, fetchClients }) => {
   };
 
   const handleEdit = (id) => {
-    const document = prompt("Enter the new id of the client");
+    const document = prompt("Enter the new document of the client");
 
     if (!document || typeof document !== "string" || document.trim() === "") {
-      alert("Please enter a valid id");
+      alert("Please enter a valid document");
       return;
     }
 

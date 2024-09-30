@@ -1,0 +1,27 @@
+{
+  "pets": [
+    {
+      "name": "Carlitos",
+      "breed": "Gato",
+      "age": 5,
+      "weight": 4,
+      "owner": {
+        "document": "1026060298",
+        "name": "Cliente1",
+        "surname": "Apellido1"
+      },
+      "id": "79f904be-436c-4363-b7b0-5ba9c0bb9121"
+    }
+  ],
+  "clients": [
+    {
+      "id": "4127",
+      "name": "Cliente1",
+      "surname": "Apellido1",
+      "address": "Dirección1",
+      "phone": "314755",
+      "document": "1026060298"
+    }
+  ],
+  "medicines": []
+}

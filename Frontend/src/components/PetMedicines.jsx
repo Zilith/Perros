@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const PetMedicines = () => {
-  const { petId } = useParams();
+  const { petId, petName } = useParams();
   const [medicines, setMedicines] = useState([]);
   const [allMedicines, setAllMedicines] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -99,7 +99,7 @@ const PetMedicines = () => {
   console.log("medicines screen", medicines);
   return (
     <div className="container">
-      <h1>Medicines for Pet {petId}</h1>
+      <h1>Medicines for {decodeURIComponent(petName)}</h1>
       <div className="table-container">
         <table>
           <thead>

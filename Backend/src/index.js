@@ -60,6 +60,7 @@ const typeDefs = gql`
 
     deletePet(id: ID!): Pet
 
+     # Mutations for Client
     createClient(
       name: String!
       surname: String!
@@ -67,11 +68,32 @@ const typeDefs = gql`
       phone: String!
       document: String!
     ): Client
+
+    editClient(
+      id: ID!
+      name: String
+      surname: String
+      address: String
+      phone: String
+    ): Client
+
+    deleteClient(id: ID!): Client
+
+    # Mutations for Medicine
     createMedicine(
       name: String!
       dosage: String!
       description: String!
     ): Medicine
+
+    editMedicine(
+      id: ID!
+      name: String
+      dosage: String
+      description: String
+    ): Medicine
+
+    deleteMedicine(id: ID!): Medicine
   }
 `;
 
@@ -188,41 +210,96 @@ const resolvers = {
         return petResponse.data; // Solo accede a `data`
         },
 
-    createClient: async (_, { name, surname, address, phone, document }) => {
-      try {
-        const newClient = {
-          id: uuidv4(), // Usar UUID para evitar conflictos de ID
-          name,
-          surname,
-          address,
-          phone,
-          document,
-        };
-
-        await axios.post("http://localhost:3001/clients", newClient);
-        return newClient;
-      } catch (error) {
-        console.error("Error creating client:", error.message);
-        throw new Error("Failed to create client");
-      }
-    },
-    createMedicine: async (_, { name, dosage, description }) => {
-      try {
-        const newMedicine = {
-          id: uuidv4(), // Usar UUID para evitar conflictos de ID
-          name,
-          dosage,
-          description,
-        };
-
-        await axios.post("http://localhost:3001/medicines", newMedicine);
-        return newMedicine;
-      } catch (error) {
-        console.error("Error creating medicine:", error.message);
-        throw new Error("Failed to create medicine");
-      }
-    },
-  },
+        createClient: async (_, { name, surname, address, phone, document }) => {
+          try {
+            const newClient = {
+              id: uuidv4(),
+              name,
+              surname,
+              address,
+              phone,
+              document,
+            };
+            await axios.post("http://localhost:3001/clients", newClient);
+            return newClient;
+          } catch (error) {
+            throw new Error("Failed to create client");
+          }
+        },
+      
+        editClient: async (_, { id, name, surname, address, phone, document }) => {
+          try {
+            const editedClient = {
+              name,
+              surname,
+              address,
+              phone,
+              document,
+            };
+            const clientResponse = await axios.put(
+              `http://localhost:3001/clients/${id}`,
+              editedClient
+            );
+            return clientResponse.data;
+          } catch (error) {
+            throw new Error("Failed to edit client");
+          }
+        },
+      
+        deleteClient: async (_, { id }) => {
+          try {
+            const clientResponse = await axios.delete(
+              `http://localhost:3001/clients/${id}`
+            );
+            return clientResponse.data;
+          } catch (error) {
+            throw new Error("Failed to delete client");
+          }
+        },
+      
+        createMedicine: async (_, { name, dosage, description }) => {
+          try {
+            const newMedicine = {
+              id: uuidv4(),
+              name,
+              dosage,
+              description,
+            };
+            await axios.post("http://localhost:3001/medicines", newMedicine);
+            return newMedicine;
+          } catch (error) {
+            throw new Error("Failed to create medicine");
+          }
+        },
+      
+        editMedicine: async (_, { id, name, dosage, description }) => {
+          try {
+            const editedMedicine = {
+              name,
+              dosage,
+              description,
+            };
+            const medicineResponse = await axios.put(
+              `http://localhost:3001/medicines/${id}`,
+              editedMedicine
+            );
+            return medicineResponse.data;
+          } catch (error) {
+            throw new Error("Failed to edit medicine");
+          }
+        },
+      
+        deleteMedicine: async (_, { id }) => {
+          try {
+            const medicineResponse = await axios.delete(
+              `http://localhost:3001/medicines/${id}`
+            );
+            return medicineResponse.data;
+          } catch (error) {
+            throw new Error("Failed to delete medicine");
+          }
+        },
+      },
 };
 
 // Create Apollo Server

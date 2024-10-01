@@ -1,110 +1,159 @@
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { useQuery, useMutation, gql } from "@apollo/client";
 
-const ClientsTable = ({ clients, fetchClients }) => {
-  const handleAdd = () => {
-    console.log("add");
+// Queries and mutations
+const GET_CLIENTS = gql`
+  query {
+    clients {
+      id
+      document
+      name
+      surname
+      address
+      phone
+    }
+  }
+`;
+
+const ADD_CLIENT = gql`
+  mutation createClient(
+    $document: String!
+    $name: String!
+    $surname: String!
+    $address: String!
+    $phone: String!
+  ) {
+    createClient(
+      document: $document
+      name: $name
+      surname: $surname
+      address: $address
+      phone: $phone
+    ) {
+      id
+      document
+      name
+      surname
+      address
+      phone
+    }
+  }
+`;
+
+const EDIT_CLIENT = gql`
+  mutation editClient(
+    $id: ID!
+    $document: String!
+    $name: String!
+    $surname: String!
+    $address: String!
+    $phone: String!
+  ) {
+    editClient(
+      id: $id
+      document: $document
+      name: $name
+      surname: $surname
+      address: $address
+      phone: $phone
+    ) {
+      id
+      document
+      name
+      surname
+      address
+      phone
+    }
+  }
+`;
+
+const DELETE_CLIENT = gql`
+  mutation deleteClient($id: ID!) {
+    deleteClient(id: $id) {
+      id
+    }
+  }
+`;
+
+const ClientsTable = () => {
+  const [clients, setClients] = useState([]);
+  
+  // UseQuery to fetch clients
+  const { loading, error, data, refetch } = useQuery(GET_CLIENTS);
+
+  // UseMutation for client operations
+  const [addClient] = useMutation(ADD_CLIENT, {
+    onCompleted: () => refetch(),
+  });
+
+  const [editClient] = useMutation(EDIT_CLIENT, {
+    onCompleted: () => refetch(),
+  });
+
+  const [deleteClient] = useMutation(DELETE_CLIENT, {
+    onCompleted: () => refetch(),
+  });
+
+  useEffect(() => {
+    if (data && data.clients) {
+      setClients(data.clients);
+    }
+  }, [data]);
+
+  const handleAdd = async () => {
     const document = prompt("Enter the document of the client");
-
-    if (!document || typeof document !== "string" || document.trim() === "") {
-      alert("Please enter a valid document");
-      return;
-    }
-
     const name = prompt("Enter the name of the client");
-
-    if (!name || typeof name !== "string" || name.trim() === "") {
-      alert("Please enter a valid name");
-      return;
-    }
-
     const surname = prompt("Enter the surname of the client");
-
-    if (!surname || typeof surname !== "string" || surname.trim() === "") {
-      alert("Please enter a valid surname");
-      return;
-    }
-
     const address = prompt("Enter the address of the client");
-
-    if (!address || typeof address !== "string" || address.trim() === "") {
-      alert("Please enter a valid address");
-      return;
-    }
-
     const phone = prompt("Enter the phone number of the client");
 
-    if (!phone || isNaN(phone) || phone.trim() === "") {
-      alert("Please enter a valid phone number");
+    if (!document || !name || !surname || !address || !phone) {
+      alert("All fields are required");
       return;
     }
 
-    axios
-      .post("http://localhost:3001/clients", {
-        document,
-        name,
-        surname,
-        address,
-        phone,
-      })
-      .then(() => {
-        fetchClients();
+    try {
+      await addClient({
+        variables: { document, name, surname, address, phone },
       });
+    } catch (error) {
+      console.error("Error adding client", error);
+    }
   };
 
-  const handleEdit = (id) => {
+  const handleEdit = async (id) => {
     const document = prompt("Enter the new document of the client");
-
-    if (!document || typeof document !== "string" || document.trim() === "") {
-      alert("Please enter a valid document");
-      return;
-    }
-
     const name = prompt("Enter the new name of the client");
-
-    if (!name || typeof name !== "string" || name.trim() === "") {
-      alert("Please enter a valid name");
-      return;
-    }
-
     const surname = prompt("Enter the new surname of the client");
-
-    if (!surname || typeof surname !== "string" || surname.trim() === "") {
-      alert("Please enter a valid surname");
-      return;
-    }
-
     const address = prompt("Enter the new address of the client");
-
-    if (!address || typeof address !== "string" || address.trim() === "") {
-      alert("Please enter a valid address");
-      return;
-    }
-
     const phone = prompt("Enter the new phone number of the client");
 
-    if (!phone || isNaN(phone) || phone.trim() === "") {
-      alert("Please enter a valid phone number");
+    if (!document || !name || !surname || !address || !phone) {
+      alert("All fields are required");
       return;
     }
 
-    axios
-      .put("http://localhost:3001/clients/" + id, {
-        document,
-        name,
-        surname,
-        address,
-        phone,
-      })
-      .then(() => {
-        fetchClients();
+    try {
+      await editClient({
+        variables: { id, document, name, surname, address, phone },
       });
+    } catch (error) {
+      console.error("Error editing client", error);
+    }
   };
 
-  const handleDelete = (id) => {
-    axios.delete("http://localhost:3001/clients/" + id).then(() => {
-      fetchClients();
-    });
+  const handleDelete = async (id) => {
+    try {
+      await deleteClient({
+        variables: { id },
+      });
+    } catch (error) {
+      console.error("Error deleting client", error);
+    }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :c</p>;
 
   return (
     <>
@@ -134,9 +183,7 @@ const ClientsTable = ({ clients, fetchClients }) => {
                   <button onClick={() => handleEdit(client.id)}>Edit</button>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(client.id)}>
-                    Delete
-                  </button>
+                  <button onClick={() => handleDelete(client.id)}>Delete</button>
                 </td>
               </tr>
             ))}

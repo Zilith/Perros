@@ -1,16 +1,29 @@
 {
   "pets": [
     {
-      "name": "Carlitos",
-      "breed": "Gato",
-      "age": 5,
+      "name": "paco",
+      "breed": "pajaro",
+      "age": 10,
+      "weight": 2,
+      "owner": {
+        "document": "1039474304",
+        "name": "Juan",
+        "surname": "Quiroz"
+      },
+      "id": "b1f449ab-ac94-4a8e-a306-9b5021d47e5d"
+    },
+    {
+      "id": "2c5a93bb-1897-485c-a607-668102138250",
+      "name": "mona ",
+      "breed": "gato",
+      "age": 1,
       "weight": 4,
       "owner": {
         "document": "1026060298",
         "name": "Cliente1",
         "surname": "Apellido1"
       },
-      "id": "79f904be-436c-4363-b7b0-5ba9c0bb9121"
+      "medicines": []
     }
   ],
   "clients": [
@@ -21,7 +34,46 @@
       "address": "Dirección1",
       "phone": "314755",
       "document": "1026060298"
+    },
+    {
+      "id": "4e9d700e-f7f0-4bea-9aee-5ab90c6c050d",
+      "name": "Juan",
+      "surname": "Quiroz",
+      "address": "Calle 1",
+      "phone": "3216549845",
+      "document": "1039474304"
     }
   ],
-  "medicines": []
+  "medicines": [
+    {
+      "id": "2b1fb0d0-711c-4b8d-8bc4-52008482676d",
+      "name": "ghj",
+      "dosage": "rty",
+      "description": "qwe"
+    },
+    {
+      "id": "e3958639-0ca7-4ef1-ae0d-bf16709da4dc",
+      "name": "cura",
+      "dosage": "12",
+      "description": "cura enfermedades xd"
+    },
+    {
+      "id": "94e454bd-3770-4e18-8d0b-78992713391b",
+      "name": "asdf",
+      "dosage": "tryu",
+      "description": "vbnm"
+    },
+    {
+      "id": "da30874d-2591-4751-97ee-e04df63ba0c0",
+      "name": "aja",
+      "dosage": "5",
+      "description": "qwere"
+    },
+    {
+      "id": "ed991824-cb03-4cc3-8d0a-77bb08916b44",
+      "name": "tyu",
+      "dosage": "betr",
+      "description": "qwe"
+    }
+  ]
 }

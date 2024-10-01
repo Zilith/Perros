@@ -1,54 +1,74 @@
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useQuery, useMutation, gql } from "@apollo/client";
+
+// Definición de Queries y Mutations
+const GET_ALL_MEDICINES = gql`
+  query {
+    medicines {
+      id
+      name
+      dosage
+      description
+    }
+  }
+`;
+
+const GET_PET_MEDICINES = gql`
+  query getPet($id: ID!) {
+    pet(id: $id) {
+      id
+      name
+      medicines {
+        id
+        name
+        dosage
+        description
+      }
+    }
+  }
+`;
+
+const UPDATE_PET_MEDICINES = gql`
+  mutation updatePetMedicines($id: ID!, $medicines: [ID!]!) {
+    updatePetMedicines(id: $id, medicines: $medicines) {
+      id
+      medicines {
+        id
+        name
+        dosage
+        description
+      }
+    }
+  }
+`;
 
 const PetMedicines = () => {
   const { petId, petName } = useParams();
-  const [medicines, setMedicines] = useState([]);
-  const [allMedicines, setAllMedicines] = useState([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [allMedicines, setAllMedicines] = useState([]);
 
-  const fetchAllMedicines = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/medicines");
-      console.log("load all medicines", response.data);
-      setAllMedicines(response.data);
-    } catch (error) {
-      console.error("Error fetching all medicines:", error);
-    }
-  };
+  // Consultas para obtener todos los medicamentos y los medicamentos de la mascota
+  const { loading: loadingAllMedicines, error: errorAllMedicines, data: allMedicinesData } = useQuery(GET_ALL_MEDICINES);
+  const { loading: loadingPetMedicines, error: errorPetMedicines, data: petMedicinesData, refetch } = useQuery(GET_PET_MEDICINES, {
+    variables: { id: petId },
+  });
 
-  const fetchMedicines = async () => {
-    try {
-      const petResponse = await axios.get(`http://localhost:3001/pets/${petId}`);
-      if (petResponse.data.medicines && petResponse.data.medicines.length > 0) {
-        const medicineIds = petResponse.data.medicines;
-        const medicinePromises = medicineIds.map((medicineId) =>
-          axios.get(`http://localhost:3001/medicines/${medicineId}`)
-        );
-        const medicineResponses = await Promise.all(medicinePromises);
-        setMedicines(medicineResponses.map((response) => response.data));
-      } else {
-        setMedicines([]);
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching medicines:", error);
-      setLoading(false);
-    }
-  };
+  // Mutación para actualizar los medicamentos de la mascota
+  const [updatePetMedicines] = useMutation(UPDATE_PET_MEDICINES, {
+    onCompleted: () => refetch(),
+  });
 
   useEffect(() => {
-    fetchAllMedicines();
-    fetchMedicines();
-  }, [petId]);
+    if (allMedicinesData && allMedicinesData.medicines) {
+      setAllMedicines(allMedicinesData.medicines);
+    }
+  }, [allMedicinesData]);
 
   const handleAdd = () => {
-    console.log("add");
     const id = prompt("Enter the id of the medicine");
 
+    // Validaciones
     if (!id || isNaN(id) || typeof id !== "string" || id.trim() === "") {
       alert("Please enter a valid id");
       return;
@@ -60,43 +80,35 @@ const PetMedicines = () => {
       return;
     }
 
-    const medicineExistsInPet = medicines.find((medicine) => medicine.id === id);
+    const medicineExistsInPet = petMedicinesData.pet.medicines.find((medicine) => medicine.id === id);
     if (medicineExistsInPet) {
       alert("The medicine is already added");
       return;
     }
 
-    const updatedMedicines = [...medicines, medicineExists];
+    const updatedMedicines = [...petMedicinesData.pet.medicines, { id }];
 
-    axios
-      .patch(`http://localhost:3001/pets/${petId}`, {
-        medicines: updatedMedicines.map((med) => med.id),
-      })
-      .then(() => {
-        setMedicines(updatedMedicines);
-      })
-      .catch((error) => console.error("Error adding medicine:", error));
+    updatePetMedicines({
+      variables: { id: petId, medicines: updatedMedicines.map((med) => med.id) },
+    });
   };
 
   const handleDelete = (id) => {
-    console.log("delete");
-    const updatedMedicines = medicines.filter((medicine) => medicine.id !== id);
+    const updatedMedicines = petMedicinesData.pet.medicines.filter((medicine) => medicine.id !== id);
 
-    axios
-      .patch(`http://localhost:3001/pets/${petId}`, {
-        medicines: updatedMedicines.map((med) => med.id),
-      })
-      .then(() => {
-        setMedicines(updatedMedicines);
-      })
-      .catch((error) => console.error("Error deleting medicine:", error));
+    updatePetMedicines({
+      variables: { id: petId, medicines: updatedMedicines.map((med) => med.id) },
+    });
   };
 
-  if (loading) {
+  if (loadingAllMedicines || loadingPetMedicines) {
     return <p>Loading...</p>;
   }
-  
-  console.log("medicines screen", medicines);
+
+  if (errorAllMedicines || errorPetMedicines) {
+    return <p>Error loading medicines</p>;
+  }
+
   return (
     <div className="container">
       <h1>Medicines for {decodeURIComponent(petName)}</h1>
@@ -111,15 +123,13 @@ const PetMedicines = () => {
             </tr>
           </thead>
           <tbody>
-            {medicines.map((medicine) => (
+            {petMedicinesData.pet.medicines.map((medicine) => (
               <tr key={medicine.id}>
                 <td>{medicine.name}</td>
                 <td>{medicine.dosage}</td>
                 <td>{medicine.description}</td>
                 <td>
-                  <button onClick={() => handleDelete(medicine.id)}>
-                    Delete
-                  </button>
+                  <button onClick={() => handleDelete(medicine.id)}>Delete</button>
                 </td>
               </tr>
             ))}

@@ -1,18 +1,6 @@
 {
   "pets": [
     {
-      "name": "paco",
-      "breed": "pajaro",
-      "age": 10,
-      "weight": 2,
-      "owner": {
-        "document": "1039474304",
-        "name": "Juan",
-        "surname": "Quiroz"
-      },
-      "id": "b1f449ab-ac94-4a8e-a306-9b5021d47e5d"
-    },
-    {
       "id": "2c5a93bb-1897-485c-a607-668102138250",
       "name": "mona ",
       "breed": "gato",
@@ -23,7 +11,24 @@
         "name": "Cliente1",
         "surname": "Apellido1"
       },
-      "medicines": []
+      "medicines": [
+        "4890762e-f269-47a2-8762-16513cbbb322"
+      ]
+    },
+    {
+      "id": "6e3d871f-5412-482e-ba9e-fdb77454a780",
+      "name": "gato",
+      "breed": "perro",
+      "age": 5,
+      "weight": 4,
+      "owner": {
+        "document": "123456",
+        "name": "mohamed",
+        "surname": "smith"
+      },
+      "medicines": [
+        "30a98041-5090-44e9-99d7-05a99af2398b"
+      ]
     }
   ],
   "clients": [
@@ -42,15 +47,17 @@
       "address": "Calle 1",
       "phone": "3216549845",
       "document": "1039474304"
+    },
+    {
+      "id": "fa5de7a2-28db-4341-bbbf-4988106d9af6",
+      "name": "mohamed",
+      "surname": "smith",
+      "address": "calle 2",
+      "phone": "456789",
+      "document": "123456"
     }
   ],
   "medicines": [
-    {
-      "id": "2b1fb0d0-711c-4b8d-8bc4-52008482676d",
-      "name": "ghj",
-      "dosage": "rty",
-      "description": "qwe"
-    },
     {
       "id": "e3958639-0ca7-4ef1-ae0d-bf16709da4dc",
       "name": "cura",
@@ -58,22 +65,22 @@
       "description": "cura enfermedades xd"
     },
     {
-      "id": "94e454bd-3770-4e18-8d0b-78992713391b",
-      "name": "asdf",
-      "dosage": "tryu",
-      "description": "vbnm"
+      "id": "30a98041-5090-44e9-99d7-05a99af2398b",
+      "name": "sana que sana",
+      "dosage": "1",
+      "description": "si no lo sana hoy, lo sana mañana"
     },
     {
-      "id": "da30874d-2591-4751-97ee-e04df63ba0c0",
-      "name": "aja",
-      "dosage": "5",
-      "description": "qwere"
+      "id": "4890762e-f269-47a2-8762-16513cbbb322",
+      "name": "Nextgard",
+      "dosage": "1",
+      "description": "antipulgas"
     },
     {
-      "id": "ed991824-cb03-4cc3-8d0a-77bb08916b44",
-      "name": "tyu",
-      "dosage": "betr",
-      "description": "qwe"
+      "id": "d9f36d3d-9178-43a5-a931-110237aa3e7f",
+      "name": "Renalof",
+      "dosage": "2",
+      "description": "problemas renales"
     }
   ]
 }

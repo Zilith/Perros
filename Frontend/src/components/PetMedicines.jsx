@@ -66,26 +66,29 @@ const PetMedicines = () => {
   }, [allMedicinesData]);
 
   const handleAdd = () => {
-    const id = prompt("Enter the id of the medicine");
+    const id = prompt("Enter the ID of the medicine");
 
-    // Validaciones
-    if (!id || isNaN(id) || typeof id !== "string" || id.trim() === "") {
-      alert("Please enter a valid id");
+    // Validación del ID ingresado: Asegúrate de que sea una cadena no vacía
+    if (!id || typeof id !== "string" || id.trim() === "") {
+      alert("Please enter a valid ID");
       return;
     }
 
+    // Verificar si el medicamento existe en la lista de todos los medicamentos
     const medicineExists = allMedicines.find((medicine) => medicine.id === id);
     if (!medicineExists) {
       alert("The medicine does not exist");
       return;
     }
 
+    // Verificar si el medicamento ya está asociado a la mascota
     const medicineExistsInPet = petMedicinesData.pet.medicines.find((medicine) => medicine.id === id);
     if (medicineExistsInPet) {
-      alert("The medicine is already added");
+      alert("The medicine is already added to this pet");
       return;
     }
 
+    // Actualizar la lista de medicamentos de la mascota y realizar la mutación
     const updatedMedicines = [...petMedicinesData.pet.medicines, { id }];
 
     updatePetMedicines({
@@ -94,13 +97,16 @@ const PetMedicines = () => {
   };
 
   const handleDelete = (id) => {
+    // Filtrar los medicamentos para excluir el seleccionado
     const updatedMedicines = petMedicinesData.pet.medicines.filter((medicine) => medicine.id !== id);
 
+    // Realizar la mutación para actualizar la lista de medicamentos
     updatePetMedicines({
       variables: { id: petId, medicines: updatedMedicines.map((med) => med.id) },
     });
   };
 
+  // Validación de estados de carga y errores
   if (loadingAllMedicines || loadingPetMedicines) {
     return <p>Loading...</p>;
   }

@@ -3,7 +3,7 @@ const { ApolloServer, gql } = require("apollo-server-express");
 const axios = require("axios");
 const { v4: uuidv4 } = require("uuid"); // Para generar IDs únicos
 
-// schema definition
+// Schema Definition
 const typeDefs = gql`
   type Pet {
     id: ID!
@@ -56,11 +56,12 @@ const typeDefs = gql`
       age: Int!
       weight: Int!
       ownerDoc: String!
+      medicines: [ID] # Se añadió este parámetro para asociar medicamentos
     ): Pet
 
     deletePet(id: ID!): Pet
 
-     # Mutations for Client
+    # Mutations for Client
     createClient(
       name: String!
       surname: String!
@@ -94,215 +95,198 @@ const typeDefs = gql`
     ): Medicine
 
     deleteMedicine(id: ID!): Medicine
+
+    # Nueva mutación para actualizar medicamentos de una mascota
+    updatePetMedicines(id: ID!, medicines: [ID!]!): Pet
   }
 `;
 
-// resolvers
+// Resolvers
 const resolvers = {
   Query: {
     pets: async () => {
       const response = await axios.get("http://localhost:3001/pets");
-      return response.data; // Asegúrate de devolver solo los datos
+      return response.data;
     },
     pet: async (_, { id }) => {
       const response = await axios.get(`http://localhost:3001/pets/${id}`);
-      return response.data; // Solo los datos
+      return response.data;
     },
     clients: async () => {
       const response = await axios.get("http://localhost:3001/clients");
-      return response.data; // Solo los datos
+      return response.data;
     },
     client: async (_, { id }) => {
       const response = await axios.get(`http://localhost:3001/clients/${id}`);
-      return response.data; // Solo los datos
+      return response.data;
     },
     medicines: async () => {
       const response = await axios.get("http://localhost:3001/medicines");
-      return response.data; // Solo los datos
+      return response.data;
     },
     medicine: async (_, { id }) => {
       const response = await axios.get(`http://localhost:3001/medicines/${id}`);
-      return response.data; // Solo los datos
+      return response.data;
     },
   },
 
   Mutation: {
     createPet: async (_, { name, breed, age, weight, ownerDoc }) => {
-      console.log("noew pet", name, breed, age, weight, ownerDoc);
-      // Busca al dueño por su documento
       const ownerResponse = await axios.get(
         `http://localhost:3001/clients?document=${ownerDoc}`
       );
-
-      // Obtiene los datos del cliente (el dueño)
-      const owner = ownerResponse.data[0]; // Verifica que no sea undefined
+      const owner = ownerResponse.data[0];
 
       if (!owner) {
         throw new Error("Owner not found");
       }
 
-      // Crea un nuevo objeto para la mascota
       const newPet = {
-        id: uuidv4(), // Usa una ID única temporal
+        id: uuidv4(),
         name,
         breed,
         age,
         weight,
         owner: {
-          document: owner.document, // Solo pasa las propiedades necesarias
+          document: owner.document,
           name: owner.name,
           surname: owner.surname,
         },
         medicines: [],
       };
 
-      // Guarda la nueva mascota en el servidor de JSON Server
-      const petResponse = await axios.post(
-        "http://localhost:3001/pets",
-        newPet
-      );
-
-      // Retorna los datos sin metadatos de la respuesta
-      return petResponse.data; // Solo accede a `data`
+      const petResponse = await axios.post("http://localhost:3001/pets", newPet);
+      return petResponse.data;
     },
 
-    editPet: async (_, { id, name, breed, age, weight, ownerDoc }) => {
-      // Busca al dueño por su documento
+    editPet: async (_, { id, name, breed, age, weight, ownerDoc, medicines }) => {
       const ownerResponse = await axios.get(
         `http://localhost:3001/clients?document=${ownerDoc}`
       );
-
-      // Obtiene los datos del cliente (el dueño)
-      const owner = ownerResponse.data[0]; // Verifica que no sea undefined
+      const owner = ownerResponse.data[0];
 
       if (!owner) {
         throw new Error("Owner not found");
       }
 
-      // Crea un nuevo objeto para la mascota
       const editedPet = {
         name,
         breed,
         age,
         weight,
         owner: {
-          document: owner.document, // Solo pasa las propiedades necesarias
+          document: owner.document,
           name: owner.name,
           surname: owner.surname,
         },
+        medicines: medicines || [], // Asignar lista de IDs de medicinas
       };
 
-      // Guarda la nueva mascota en el servidor de JSON Server
       const petResponse = await axios.put(
         `http://localhost:3001/pets/${id}`,
         editedPet
       );
-
-      // Retorna los datos sin metadatos de la respuesta
-      return petResponse.data; // Solo accede a `data`
+      return petResponse.data;
     },
 
     deletePet: async (_, { id }) => {
-        // Elimina la mascota del servidor de JSON Server
-        const petResponse = await axios.delete(`http://localhost:3001/pets/${id}`);
-    
-        // Retorna los datos sin metadatos de la respuesta
-        return petResponse.data; // Solo accede a `data`
-        },
+      const petResponse = await axios.delete(`http://localhost:3001/pets/${id}`);
+      return petResponse.data;
+    },
 
-        createClient: async (_, { name, surname, address, phone, document }) => {
-          try {
-            const newClient = {
-              id: uuidv4(),
-              name,
-              surname,
-              address,
-              phone,
-              document,
-            };
-            await axios.post("http://localhost:3001/clients", newClient);
-            return newClient;
-          } catch (error) {
-            throw new Error("Failed to create client");
-          }
-        },
-      
-        editClient: async (_, { id, name, surname, address, phone, document }) => {
-          try {
-            const editedClient = {
-              name,
-              surname,
-              address,
-              phone,
-              document,
-            };
-            const clientResponse = await axios.put(
-              `http://localhost:3001/clients/${id}`,
-              editedClient
-            );
-            return clientResponse.data;
-          } catch (error) {
-            throw new Error("Failed to edit client");
-          }
-        },
-      
-        deleteClient: async (_, { id }) => {
-          try {
-            const clientResponse = await axios.delete(
-              `http://localhost:3001/clients/${id}`
-            );
-            return clientResponse.data;
-          } catch (error) {
-            throw new Error("Failed to delete client");
-          }
-        },
-      
-        createMedicine: async (_, { name, dosage, description }) => {
-          try {
-            const newMedicine = {
-              id: uuidv4(),
-              name,
-              dosage,
-              description,
-            };
-            await axios.post("http://localhost:3001/medicines", newMedicine);
-            return newMedicine;
-          } catch (error) {
-            throw new Error("Failed to create medicine");
-          }
-        },
-      
-        editMedicine: async (_, { id, name, dosage, description }) => {
-          try {
-            const editedMedicine = {
-              name,
-              dosage,
-              description,
-            };
-            const medicineResponse = await axios.put(
-              `http://localhost:3001/medicines/${id}`,
-              editedMedicine
-            );
-            return medicineResponse.data;
-          } catch (error) {
-            throw new Error("Failed to edit medicine");
-          }
-        },
-      
-        deleteMedicine: async (_, { id }) => {
-          try {
-            const medicineResponse = await axios.delete(
-              `http://localhost:3001/medicines/${id}`
-            );
-            return medicineResponse.data;
-          } catch (error) {
-            throw new Error("Failed to delete medicine");
-          }
-        },
-      },
+    createClient: async (_, { name, surname, address, phone, document }) => {
+      const newClient = {
+        id: uuidv4(),
+        name,
+        surname,
+        address,
+        phone,
+        document,
+      };
+      await axios.post("http://localhost:3001/clients", newClient);
+      return newClient;
+    },
+
+    editClient: async (_, { id, name, surname, address, phone }) => {
+      const editedClient = {
+        name,
+        surname,
+        address,
+        phone,
+      };
+      const clientResponse = await axios.put(
+        `http://localhost:3001/clients/${id}`,
+        editedClient
+      );
+      return clientResponse.data;
+    },
+
+    deleteClient: async (_, { id }) => {
+      const clientResponse = await axios.delete(`http://localhost:3001/clients/${id}`);
+      return clientResponse.data;
+    },
+
+    createMedicine: async (_, { name, dosage, description }) => {
+      const newMedicine = {
+        id: uuidv4(),
+        name,
+        dosage,
+        description,
+      };
+      await axios.post("http://localhost:3001/medicines", newMedicine);
+      return newMedicine;
+    },
+
+    editMedicine: async (_, { id, name, dosage, description }) => {
+      const editedMedicine = {
+        name,
+        dosage,
+        description,
+      };
+      const medicineResponse = await axios.put(
+        `http://localhost:3001/medicines/${id}`,
+        editedMedicine
+      );
+      return medicineResponse.data;
+    },
+
+    deleteMedicine: async (_, { id }) => {
+      const medicineResponse = await axios.delete(`http://localhost:3001/medicines/${id}`);
+      return medicineResponse.data;
+    },
+
+    updatePetMedicines: async (_, { id, medicines }) => {
+      const petResponse = await axios.get(`http://localhost:3001/pets/${id}`);
+      const pet = petResponse.data;
+
+      const updatedPet = {
+        ...pet,
+        medicines, // Actualizar la lista de medicamentos con los IDs proporcionados
+      };
+
+      const response = await axios.put(`http://localhost:3001/pets/${id}`, updatedPet);
+      return response.data;
+    },
+  },
+
+  // Resolver adicional para obtener las medicinas completas desde los IDs en la mascota
+  Pet: {
+    medicines: async (parent) => {
+      const medicineIds = parent.medicines || [];
+
+      const medicines = await Promise.all(
+        medicineIds.map(async (id) => {
+          const response = await axios.get(`http://localhost:3001/medicines/${id}`);
+          return response.data;
+        })
+      );
+
+      return medicines;
+    },
+  },
 };
 
-// Create Apollo Server
+// Crear el servidor de Apollo
 async function startApolloServer() {
   const app = express();
   const server = new ApolloServer({ typeDefs, resolvers });
@@ -316,3 +300,4 @@ async function startApolloServer() {
 }
 
 startApolloServer();
+

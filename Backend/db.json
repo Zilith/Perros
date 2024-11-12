@@ -1,0 +1,88 @@
+{
+  "pets": [
+    {
+      "id": "2c5a93bb-1897-485c-a607-668102138250",
+      "name": "mona ",
+      "breed": "gato",
+      "age": 1,
+      "weight": 4,
+      "owner": {
+        "document": "1026060298",
+        "name": "Cliente1",
+        "surname": "Apellido1"
+      },
+      "medicines": [
+        "4890762e-f269-47a2-8762-16513cbbb322",
+        "30a98041-5090-44e9-99d7-05a99af2398b",
+        "d9f36d3d-9178-43a5-a931-110237aa3e7f"
+      ]
+    },
+    {
+      "id": "6e3d871f-5412-482e-ba9e-fdb77454a780",
+      "name": "gato",
+      "breed": "perro",
+      "age": 5,
+      "weight": 4,
+      "owner": {
+        "document": "123456",
+        "name": "mohamed",
+        "surname": "smith"
+      },
+      "medicines": [
+        "30a98041-5090-44e9-99d7-05a99af2398b"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "id": "4127",
+      "name": "Cliente1",
+      "surname": "Apellido1",
+      "address": "Dirección1",
+      "phone": "314755",
+      "document": "1026060298"
+    },
+    {
+      "id": "4e9d700e-f7f0-4bea-9aee-5ab90c6c050d",
+      "name": "Juan",
+      "surname": "Quiroz",
+      "address": "Calle 1",
+      "phone": "3216549845",
+      "document": "1039474304"
+    },
+    {
+      "id": "fa5de7a2-28db-4341-bbbf-4988106d9af6",
+      "name": "mohamed",
+      "surname": "smith",
+      "address": "calle 2",
+      "phone": "456789",
+      "document": "123456"
+    }
+  ],
+  "medicines": [
+    {
+      "id": "e3958639-0ca7-4ef1-ae0d-bf16709da4dc",
+      "name": "cura",
+      "dosage": "12",
+      "description": "cura enfermedades xd"
+    },
+    {
+      "id": "30a98041-5090-44e9-99d7-05a99af2398b",
+      "name": "sana que sana",
+      "dosage": "1",
+      "description": "si no lo sana hoy, lo sana mañana"
+    },
+    {
+      "id": "4890762e-f269-47a2-8762-16513cbbb322",
+      "name": "Nextgard",
+      "dosage": "1",
+      "description": "antipulgas"
+    },
+    {
+      "id": "d9f36d3d-9178-43a5-a931-110237aa3e7f",
+      "name": "Renalof",
+      "dosage": "2",
+      "description": "problemas renales"
+    }
+  ]
+}

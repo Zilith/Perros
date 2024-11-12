@@ -89,7 +89,6 @@ const PetsTable = ({ clients }) => {
 
   // UseQuery fot fetching pets
   const { loading, error, data, refetch } = useQuery(GET_PETS);
-  console.log(loading, error, data);
 
 
   // UseMutation
@@ -106,7 +105,6 @@ const PetsTable = ({ clients }) => {
   });
 
   useEffect(() => {
-    console.log(loading, error, data);
     if (data && data.pets) {
       setPets(data.pets);
     }
@@ -187,7 +185,6 @@ const PetsTable = ({ clients }) => {
   };
 
 
-  console.log(loading, error, data);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :c</p>;
 

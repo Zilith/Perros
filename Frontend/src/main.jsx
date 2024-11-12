@@ -5,8 +5,12 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import PetMedicines from "./components/PetMedicines.jsx";
 
+const devApollouri = import.meta.env.VITE_DEV_APOLLO_URI;
+const prodApollouri = import.meta.env.VITE_PROD_APOLLO_URI;
+const apolloUri = import.meta.env.VITE_ENV === "development" ? devApollouri : prodApollouri;
+
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: apolloUri,
   cache: new InMemoryCache(),
 });
 

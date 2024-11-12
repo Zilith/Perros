@@ -5,22 +5,30 @@ import PetsTable from "./components/Petstable";
 import ClientsTable from "./components/Clientstable";
 import MedicinesTable from "./components/MedicinesTable";
 
+
 function App() {
   const [clients, setClients] = useState([]);
   const [medicines, setMedicines] = useState([]);
   const [selectedPets, setSelectedPets] = useState(true);
   const [selectedClients, setSelectedClients] = useState(false);
   const [selectedMedicines, setSelectedMedicines] = useState(false);
+  const baseDevClients = import.meta.env.VITE_DEV_BASE_URL_CLIENTS;
+  const baseDevMedicines = import.meta.env.VITE_DEV_BASE_URL_MEDICINES;
+  const baseProdClients = import.meta.env.VITE_PROD_BASE_URL_CLIENTS;
+  const baseProdMedicines = import.meta.env.VITE_PROD_BASE_URL_MEDICINES;
+  const baseClients = import.meta.env.VITE_ENV === "development" ? baseDevClients : baseProdClients;
+  const baseMedicines = import.meta.env.VITE_ENV === "development" ? baseDevMedicines : baseProdMedicines;
+
 
   const fetchClients = () => {
-    axios.get("http://localhost:3001/clients").then((response) => {
+    axios.get(baseClients).then((response) => {
       setClients(response.data);
       //console.log("clients", response.data);
     });
   };
 
   const fetchMedicines = () => {
-    axios.get("http://localhost:3001/medicines").then((response) => {
+    axios.get(baseMedicines).then((response) => {
       setMedicines(response.data);
       //console.log("medicines", response.data);
     });

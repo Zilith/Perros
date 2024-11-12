@@ -1,0 +1,13 @@
+{
+    "name": "json-server-api",
+    "version": "1.0.0",
+    "description": "JSON Server deployment on Render",
+    "main": "index.js",
+    "scripts": {
+        "start": "json-server --watch db.json --port ${PORT}"
+    },
+    "dependencies": {
+        "json-server": "^0.17.0",
+        "json-server-api": "file:"
+    }
+}

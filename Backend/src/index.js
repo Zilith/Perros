@@ -2,6 +2,10 @@ const express = require("express");
 const { ApolloServer, gql } = require("apollo-server-express");
 const axios = require("axios");
 const { v4: uuidv4 } = require("uuid"); // Para generar IDs únicos
+require("dotenv").config();
+
+
+const JSON_SERVER_URL = process.env.JSON_SERVER_URL;
 
 // Schema Definition
 const typeDefs = gql`
@@ -105,27 +109,27 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     pets: async () => {
-      const response = await axios.get("http://localhost:3001/pets");
+      const response = await axios.get(`${JSON_SERVER_URL}/pets`);
       return response.data;
     },
     pet: async (_, { id }) => {
-      const response = await axios.get(`http://localhost:3001/pets/${id}`);
+      const response = await axios.get(`${JSON_SERVER_URL}/pets/${id}`);
       return response.data;
     },
     clients: async () => {
-      const response = await axios.get("http://localhost:3001/clients");
+      const response = await axios.get(`${JSON_SERVER_URL}/clients`);
       return response.data;
     },
     client: async (_, { id }) => {
-      const response = await axios.get(`http://localhost:3001/clients/${id}`);
+      const response = await axios.get(`${JSON_SERVER_URL}/clients/${id}`);
       return response.data;
     },
     medicines: async () => {
-      const response = await axios.get("http://localhost:3001/medicines");
+      const response = await axios.get(`${JSON_SERVER_URL}/medicines`);
       return response.data;
     },
     medicine: async (_, { id }) => {
-      const response = await axios.get(`http://localhost:3001/medicines/${id}`);
+      const response = await axios.get(`${JSON_SERVER_URL}/medicines/${id}`);
       return response.data;
     },
   },
@@ -133,7 +137,7 @@ const resolvers = {
   Mutation: {
     createPet: async (_, { name, breed, age, weight, ownerDoc }) => {
       const ownerResponse = await axios.get(
-        `http://localhost:3001/clients?document=${ownerDoc}`
+        `${JSON_SERVER_URL}/clients?document=${ownerDoc}`
       );
       const owner = ownerResponse.data[0];
 
@@ -155,13 +159,13 @@ const resolvers = {
         medicines: [],
       };
 
-      const petResponse = await axios.post("http://localhost:3001/pets", newPet);
+      const petResponse = await axios.post(`${JSON_SERVER_URL}/pets`, newPet);
       return petResponse.data;
     },
 
     editPet: async (_, { id, name, breed, age, weight, ownerDoc, medicines }) => {
       const ownerResponse = await axios.get(
-        `http://localhost:3001/clients?document=${ownerDoc}`
+        `${JSON_SERVER_URL}/clients?document=${ownerDoc}`
       );
       const owner = ownerResponse.data[0];
 
@@ -183,14 +187,14 @@ const resolvers = {
       };
 
       const petResponse = await axios.put(
-        `http://localhost:3001/pets/${id}`,
+        `${JSON_SERVER_URL}/pets/${id}`,
         editedPet
       );
       return petResponse.data;
     },
 
     deletePet: async (_, { id }) => {
-      const petResponse = await axios.delete(`http://localhost:3001/pets/${id}`);
+      const petResponse = await axios.delete(`${JSON_SERVER_URL}/pets/${id}`);
       return petResponse.data;
     },
 
@@ -203,7 +207,7 @@ const resolvers = {
         phone,
         document,
       };
-      await axios.post("http://localhost:3001/clients", newClient);
+      await axios.post(`${JSON_SERVER_URL}/clients`, newClient);
       return newClient;
     },
 
@@ -215,14 +219,14 @@ const resolvers = {
         phone,
       };
       const clientResponse = await axios.put(
-        `http://localhost:3001/clients/${id}`,
+        `${JSON_SERVER_URL}/clients/${id}`,
         editedClient
       );
       return clientResponse.data;
     },
 
     deleteClient: async (_, { id }) => {
-      const clientResponse = await axios.delete(`http://localhost:3001/clients/${id}`);
+      const clientResponse = await axios.delete(`${JSON_SERVER_URL}/clients/${id}`);
       return clientResponse.data;
     },
 
@@ -233,7 +237,7 @@ const resolvers = {
         dosage,
         description,
       };
-      await axios.post("http://localhost:3001/medicines", newMedicine);
+      await axios.post(`${JSON_SERVER_URL}/medicines`, newMedicine);
       return newMedicine;
     },
 
@@ -244,19 +248,19 @@ const resolvers = {
         description,
       };
       const medicineResponse = await axios.put(
-        `http://localhost:3001/medicines/${id}`,
+        `${JSON_SERVER_URL}/medicines/${id}`,
         editedMedicine
       );
       return medicineResponse.data;
     },
 
     deleteMedicine: async (_, { id }) => {
-      const medicineResponse = await axios.delete(`http://localhost:3001/medicines/${id}`);
+      const medicineResponse = await axios.delete(`${JSON_SERVER_URL}/medicines/${id}`);
       return medicineResponse.data;
     },
 
     updatePetMedicines: async (_, { id, medicines }) => {
-      const petResponse = await axios.get(`http://localhost:3001/pets/${id}`);
+      const petResponse = await axios.get(`${JSON_SERVER_URL}/pets/${id}`);
       const pet = petResponse.data;
 
       const updatedPet = {
@@ -264,7 +268,7 @@ const resolvers = {
         medicines, // Actualizar la lista de medicamentos con los IDs proporcionados
       };
 
-      const response = await axios.put(`http://localhost:3001/pets/${id}`, updatedPet);
+      const response = await axios.put(`${JSON_SERVER_URL}/pets/${id}`, updatedPet);
       return response.data;
     },
   },
@@ -276,7 +280,7 @@ const resolvers = {
 
       const medicines = await Promise.all(
         medicineIds.map(async (id) => {
-          const response = await axios.get(`http://localhost:3001/medicines/${id}`);
+          const response = await axios.get(`${JSON_SERVER_URL}/medicines/${id}`);
           return response.data;
         })
       );
@@ -294,8 +298,10 @@ async function startApolloServer() {
   await server.start();
   server.applyMiddleware({ app });
 
+  const port = process.env.PORT || 4000;
+
   app.listen({ port: 4000 }, () =>
-    console.log(`Server ready at http://localhost:4000${server.graphqlPath}`)
+    console.log(`Server ready at http://localhost:${port}${server.graphqlPath}`)
   );
 }
 

@@ -15,14 +15,14 @@ function App() {
   const fetchClients = () => {
     axios.get("http://localhost:3001/clients").then((response) => {
       setClients(response.data);
-      console.log("clients", response.data);
+      //console.log("clients", response.data);
     });
   };
 
   const fetchMedicines = () => {
     axios.get("http://localhost:3001/medicines").then((response) => {
       setMedicines(response.data);
-      console.log("medicines", response.data);
+      //console.log("medicines", response.data);
     });
   };
 

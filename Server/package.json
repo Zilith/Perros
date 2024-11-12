@@ -4,9 +4,10 @@
     "description": "JSON Server deployment on Render",
     "main": "index.js",
     "scripts": {
-        "start": "json-server --watch db.json --port ${PORT}"
+        "start": "node src/index.js"
     },
     "dependencies": {
+        "dotenv": "^16.4.5",
         "json-server": "^0.17.0",
         "json-server-api": "file:"
     }
